@@ -1,0 +1,21 @@
+# Environment-specific configuration template
+# Copy this file to application-local.yml and customize for your local environment
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/faq_chatbot?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
+    username: root
+    password: yourpassword
+
+claude:
+  api:
+    key: your-local-claude-api-key
+
+app:
+  config:
+    cors:
+      allowed-origins: http://localhost:3000
+
+logging:
+  level:
+    com.faq.chatbot: TRACE
