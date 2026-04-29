@@ -58,6 +58,11 @@ app:
       max-history-messages: 20
       session-timeout-minutes: 60
 
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET:your-secret-key-change-this-in-production-make-it-at-least-32-characters-long}
+  expiration: ${JWT_EXPIRATION:86400000}
+
 # Server Configuration
 server:
   port: ${SERVER_PORT:8080}

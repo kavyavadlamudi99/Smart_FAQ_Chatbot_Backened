@@ -2,8 +2,6 @@ package com.faq.chatbot.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -24,42 +22,32 @@ public class AdminUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 100)
-    private String username;
+    @Column(nullable = false)
+    private String name;
 
-    @Column(nullable = false, unique = true, length = 150)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(length = 100)
-    private String fullName;
+    @Column
+    private String companyName;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
-    private UserRole role = UserRole.ADMIN;
-
-    @Column(nullable = false)
-    private Boolean active = true;
-
-    @Column(length = 255)
-    private String profilePicture;
-
-    @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @UpdateTimestamp
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    @Column
-    private LocalDateTime lastLoginAt;
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
 
-    public enum UserRole {
-        SUPER_ADMIN,
-        ADMIN,
-        MODERATOR
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 }

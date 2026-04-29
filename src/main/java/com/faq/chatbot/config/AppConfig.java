@@ -3,7 +3,9 @@ package com.faq.chatbot.config;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * Application Configuration Properties
@@ -17,6 +19,16 @@ public class AppConfig {
     
     private Upload upload = new Upload();
     private Chat chat = new Chat();
+    
+    /**
+     * BCryptPasswordEncoder bean for password hashing
+     *
+     * @return BCryptPasswordEncoder instance
+     */
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
     
     @Getter
     @Setter

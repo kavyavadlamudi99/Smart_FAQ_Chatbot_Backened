@@ -6,31 +6,36 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 /**
- * FaqDocument Entity
- * Represents an uploaded FAQ document
- * Stores uploaded FAQ document text content
+ * Faq Entity
+ * Stores extracted or manually added FAQ question-answer records
  */
 @Entity
-@Table(name = "faq_documents")
+@Table(name = "faqs")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class FaqDocument {
+public class Faq {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String fileName;
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String question;
 
-    @Column(nullable = false, columnDefinition = "LONGTEXT")
-    private String content;
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String answer;
+
+    @Column
+    private String category;
 
     @Column(nullable = false)
-    private Long uploadedBy;
+    private Long documentId;
+
+    @Column(nullable = false)
+    private Boolean isActive = true;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
