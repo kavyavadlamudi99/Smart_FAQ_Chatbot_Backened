@@ -64,6 +64,13 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         
+        <!-- Apache PDFBox for PDF parsing -->
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+        
         <!-- Spring Boot DevTools -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
