@@ -10,6 +10,7 @@ import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -137,7 +138,8 @@ public class FaqDocumentService {
      * @throws IOException if PDF parsing fails
      */
     private String extractTextFromPdf(MultipartFile file) throws IOException {
-        try (PDDocument document = PDDocument.load(file.getInputStream())) {
+        byte[] pdfData = file.getBytes();
+        try (PDDocument document = PDDocument.load(new ByteArrayInputStream(pdfData))) {
             if (document.isEncrypted()) {
                 throw new IOException("Cannot extract text from encrypted PDF");
             }
