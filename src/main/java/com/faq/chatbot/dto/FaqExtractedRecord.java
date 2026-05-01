@@ -7,17 +7,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * Response DTO for FAQ document upload
+ * DTO for extracted FAQ record from document
  */
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class FaqDocumentUploadResponse {
-    private Long documentId;
-    private String fileName;
-    private Integer extractedFaqCount;
-    private String message;
-    private String error;
+public class FaqExtractedRecord {
+    private String question;
+    private String answer;
+    private String category;
 }

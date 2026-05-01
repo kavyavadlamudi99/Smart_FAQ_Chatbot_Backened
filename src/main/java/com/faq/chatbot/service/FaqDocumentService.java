@@ -24,11 +24,17 @@ import java.util.stream.Collectors;
 public class FaqDocumentService {
     
     private final FaqDocumentRepository faqDocumentRepository;
+    private final FaqExtractionService faqExtractionService;
+    private final FaqService faqService;
     private static final List<String> ALLOWED_FILE_TYPES = Arrays.asList(".txt", ".pdf");
     private static final long MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
     
-    public FaqDocumentService(FaqDocumentRepository faqDocumentRepository) {
+    public FaqDocumentService(FaqDocumentRepository faqDocumentRepository,
+                             FaqExtractionService faqExtractionService,
+                             FaqService faqService) {
         this.faqDocumentRepository = faqDocumentRepository;
+        this.faqExtractionService = faqExtractionService;
+        this.faqService = faqService;
     }
     
     /**
@@ -62,11 +68,18 @@ public class FaqDocumentService {
         
         FaqDocument savedDocument = faqDocumentRepository.save(faqDocument);
         
+        // Extract FAQs from the document content
+        var extractedRecords = faqExtractionService.extractFaqRecords(content);
+        
+        // Save extracted FAQs to the database
+        faqService.createFaqsFromExtracted(extractedRecords, savedDocument.getId());
+        
         // Build response
         return FaqDocumentUploadResponse.builder()
                 .documentId(savedDocument.getId())
                 .fileName(savedDocument.getFileName())
-                .message("FAQ document uploaded successfully")
+                .extractedFaqCount(extractedRecords.size())
+                .message("FAQ document uploaded and FAQs extracted successfully")
                 .build();
     }
     
