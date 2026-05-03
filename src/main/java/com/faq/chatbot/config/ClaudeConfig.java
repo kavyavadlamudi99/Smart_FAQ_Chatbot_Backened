@@ -14,9 +14,9 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Setter
 public class ClaudeConfig {
-    
+
     private String key;
-    private String baseUrl;
+    private String url;
     private String model;
     private Integer maxTokens;
     private Double temperature;
