@@ -35,12 +35,18 @@ public class ChatLog {
     @Column(nullable = false)
     private Long responseTimeMs;
 
+    @Column(nullable = false)
+    private Boolean needsReview;
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
+        if (needsReview == null) {
+            needsReview = false;
+        }
     }
 
     public enum SourceType {
