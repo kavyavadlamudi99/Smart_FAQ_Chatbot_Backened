@@ -1,5 +1,6 @@
-package com.smartfaq.chatbot.config;
+package com.faq.chatbot.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -7,30 +8,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-/**
- * Spring Security Configuration
- * Configures security rules for the application
- */
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
-    /**
-     * Configure security filter chain.
-     *
-     * Public APIs (no auth):
-     *   GET  /api/health
-     *   POST /api/auth/login
-     *   POST /api/auth/register
-     *   POST /api/public/chat
-     *
-     * Protected APIs (JWT required):
-     *   /api/faqs/**
-     *   /api/faq-documents/**
-     *   /api/chat-logs/**
-     *   /api/dashboard/**
-     */
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -50,7 +36,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/dashboard/**").authenticated()
                 // All other requests require authentication by default
                 .anyRequest().authenticated()
-            );
+            )
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
